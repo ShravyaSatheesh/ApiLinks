@@ -1,0 +1,108 @@
+﻿body {
+   /* background-image: url('../grey background.jfif');
+    background-repeat: no-repeat;
+    background-size: cover;*/
+}
+
+.card {
+    background-color: white;
+    border-radius: 20px;
+    /*box-shadow:black 10px 10px;*/
+    /*border:2px solid black;*/
+    margin: 80px 0px 0px 500px;
+    display: flex;
+   
+}
+
+.superimg {
+    height: 200px;
+    width: 200px;
+    background-image: url('../loginindex.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    margin: 100px 0px 0px 50px;
+}
+
+h2 {
+    color: black;
+}
+
+
+label {
+    color: black;
+}
+
+.nextcard {
+    background-color: green;
+    height: 50%;
+    width: 50%;
+    display: flex
+}
+
+.para {
+    position: absolute;
+    margin: 300px 0px 0px 0px;
+}
+
+.btn {
+    width: 160px;
+    height: 50px;
+    background: white;
+    color: black;
+    border: 2px solid black;
+    outline: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 500;
+    transition: 2s;
+}
+
+    .btn:hover {
+        color: white;
+        background-color:blue;
+        border:2px solid black;
+    }
+
+@media screen and (max-width:600px) {
+    .card-body {
+        width: 280px;
+        margin-left: 0%;
+        margin-top: 5%;
+    }
+
+    .card {
+        width: 75%;
+        margin: 300px 0px 0px 0px;
+    }
+
+    h1 {
+        margin: 0px;
+    }
+
+    .superimg {
+        margin: 10px 50px 0px 50px;
+    }
+
+    .para {
+        margin: 220px 0px 0px 40px;
+    }
+}
+
+.warning-message
+{
+    color:red;
+    margin:0px 0px 0px 630px;
+}
+
+.invalid-message
+{
+    color:red;
+    margin:0px 0px 0px 670px;
+}
+
+/*h1{
+    background-color:orange;
+
+}*/

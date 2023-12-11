@@ -1,0 +1,45 @@
+﻿body {
+    /*background-image: url('../grey background.jfif');
+    background-size: cover;
+    background-repeat: no-repeat;*/
+}
+
+.card-header {
+    background-color: lightgray;
+    color: black;
+    border-radius: 5px;
+}
+
+.card {
+    /*border:2px solid black;*/
+    border-radius: 5px;
+}
+
+/*#tblUser thead {
+    background-color: lightblue;
+}*/
+
+#tblUser tbody {
+    background-color: white;
+}
+
+    #tblUser tbody tr:nth-child(even) {
+        background-color: lightgray;
+    }
+
+@media screen and (max-width:600px) {
+    tbody
+    {
+        width:10px;
+    }
+    #logout {
+        margin: 0px 0px 0px 0px;
+    }
+}
+
+#logs
+{
+    background-color:white;
+    color:black;
+    border:2px solid black;
+}

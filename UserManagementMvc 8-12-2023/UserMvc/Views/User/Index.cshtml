@@ -1,0 +1,125 @@
+﻿<style>
+    .card {
+        /*position: fixed;*/
+        margin: 10px 0px 0px 70px;
+        width: 90%;
+    }
+
+    #logout
+    {
+        margin:0px 0px 0px 600px;
+    }
+</style>
+<link rel="stylesheet" href="~/css/UserIndexStyleSheet.css" />
+<center><p id="delmsg" class="del-msg"></p></center>
+<div class="card">
+    <div class="card-header">
+        <center><h2>User</h2></center>
+    </div>
+    <div class="card-body">
+        <div class="card-title">
+            <a asp-controller="User" asp-action="Create" class="btn btn-success" style="background-color:white;color:black;border:2px solid black">Add New</a>         
+            <a asp-controller="User" asp-action="Logs" class="btn btn-primary" id="logs" >User Logs</a>
+            <a asp-controller="Login" asp-action="Index" class="btn btn-danger" id="logout">Logout</a>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-bordered" id="tblUser">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/UserIndexJavaScript.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+
+    var js = jQuery.noConflict(true);
+    js(document).ready(function () {
+        LoadUser()
+    });
+
+    function LoadUser() {
+        tabledata = [];
+        // var _token = localStorage.getItem('token');
+        $.ajax({
+            type: 'GET',
+            url: 'https://usermanagementapi-team4.azurewebsites.net/api/Authentication/AllUsers',
+            // headers: {
+            //     'Authorization': 'bearer ' + _token
+            // },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+
+                $.each(data, function (key, value) {
+                    var _edit = "<a class='btn' onclick='FunEdit(this)' style='background-color:white;color:black;border:2px solid black'>Edit</a>";
+                    var _remove = "<a class='btn btn-danger' onclick='FunRemove(this)'>Delete</a>";
+                    var _hdn = "<input id='hdncode' type='hidden' value=" + value.email + " />"
+                    var _action = _hdn + _edit + " | " + _remove 
+                    tabledata.push([value.id, value.name, value.email, value.role, _action])
+                })
+            },
+            failure: function (error) {
+
+            }
+        })
+        js('#tblUser').DataTable({
+            data: tabledata
+        })
+    }
+    function FunEdit(element) {
+        var code = $(element).closest('tr').find('#hdncode').val();
+        window.location.href = '/User/Edit?Email=' + code
+    }
+
+    function FunRemove(element) {
+        var delmsg = document.getElementById('delmsg');
+        var code = $(element).closest('tr').find('#hdncode').val();
+        if (/* confirm('Do you want to remove?') */delmsg.textContent='User removed successful') {
+            proceedremove(code)
+        }
+    }
+
+    function proceedremove(code) {
+        // var _token = localStorage.getItem('token');
+        var delmsg = document.getElementById('delmsg');
+        $.ajax({
+            type: 'DELETE',
+            url: 'https://usermanagementapi-team4.azurewebsites.net/api/Authentication/Delete?Email=' + code,
+ 
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                debugger;
+                
+                    window.location.href = '/User';
+                    // alert('Removed user Successfully.')
+                delmsg.textContent = 'Removed user Successfully';
+                return false;
+                
+            },
+            failure: function (error) {
+
+            }
+        })
+    }
+
+
+</script>

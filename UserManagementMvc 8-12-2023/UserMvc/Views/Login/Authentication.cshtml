@@ -1,0 +1,203 @@
+﻿[5:05 PM] G, Nithish
+<link rel="stylesheet" href="~/css/AuthenticationStyleSheet.css" />
+
+<div class="superimg">
+</div>
+
+<div class="auth"><h1>AUTHENTICATION</h1></div>
+
+<h5>Verification code has been sent to the registered Email</h5>
+
+<div class="card">
+
+    <div class="card-body">
+
+        <div class="row">
+
+            <div class="captcha-container">
+
+                <form action="#" method="post" id="captcha-form" onsubmit="return validateCaptcha()">
+
+                    <div class="captcha">
+
+                        <span class="captcha-text" id="captcha-text">AKASH</span>
+
+                    </div>
+
+                    <label for="user-input">Enter the above CAPTCHA Code:</label>
+
+                    <input type="text" id="user-input" name="user-input" required>
+
+                    <center>
+
+                        <button type="submit" id="subbtn">Submit</button>
+
+                        <button type="button" id="refresh-btn" onclick="refreshCaptcha()">Refresh</button>
+
+                    </center>
+
+                </form>
+
+
+            </div>
+
+            <div class="col-lg-12">
+
+                <div class="form-group">
+
+                    <label>OTP</label>
+
+                    <input type="text" class="form-control" id="txtotp" style="border:1px solid black" />
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<br />
+
+<div class="card-footer">
+
+    <a onclick="ProceedVerify()" class="btn btn-primary">Verify</a>
+
+</div>
+
+<p class="succ-msg" id="succmsg" style="color:red"></p>
+
+<!-- Add this div for displaying the warning message -->
+
+<div class="warning-msg" id="warning-msg"></div>
+
+<script src="/js/CaptchaJavaScript.js"></script>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+    var js = jQuery.noConflict(true);
+
+    function validateCaptcha() {
+
+        var userInput = document.getElementById('user-input').value;
+
+        var captchaText = document.getElementById('captcha-text').innerText;
+
+        if (userInput.toUpperCase() === captchaText.toUpperCase()) {
+
+            return true; // CAPTCHA is verified
+
+        } else {
+
+            var warningMsg = document.getElementById('warning-msg');
+
+            warningMsg.textContent = 'Invalid CAPTCHA code. Please try again.';
+
+            refreshCaptcha(); // Refresh CAPTCHA on failure
+
+            return false;
+
+        }
+
+    }
+
+    // Revised ProceedVerify function
+
+    function ProceedVerify() {
+
+        var isproceed = true;
+
+        var urlParams = new URLSearchParams(window.location.search);
+
+        var user = urlParams.get('username');
+
+        var _otp = $('#txtotp');
+
+        var otp = _otp.val();
+
+        if (otp == null || otp.trim() == '') {
+
+            _otp.css('border-color', 'red');
+
+            isproceed = false;
+
+        } else {
+
+            _otp.css('border-color', '#ccc');
+
+        }
+
+        if (isproceed) {
+
+            var succmsg = document.getElementById('succmsg');
+
+            var _obj = {
+
+                username: user,
+
+                code: otp
+
+            };
+
+            $.ajax({
+
+                type: 'POST',
+
+                url: 'https://localhost:7010/api/Authentication/login-2FA',
+
+                data: JSON.stringify(_obj),
+
+                contentType: 'application/json; charset=utf-8',
+
+                dataType: 'json',
+
+                success: function (data) {
+
+                    if (data && data.token) {
+
+                        localStorage.setItem('token', data.token);
+
+                        if (data.role === 'SuperAdmin') {
+
+                            // Redirect to the next page for SuperAdmin
+
+                            window.location.href = '/User/Index';
+
+                        } else {
+
+                            window.location.href = '/Login/Index';
+
+                            succmsg.textContent = 'Access denied. User is not a Super Admin';
+
+                            return false;
+
+                        }
+
+                    } else {
+
+                        // Handle other scenarios or errors
+
+                    }
+
+                },
+
+                error: function (xhr, textStatus, errorThrown) {
+                    // Display error message on the page
+                    //alert('Invalid verification Code.');
+                    window.location.href = '/Login/Index';
+                    succmsg.textContent = 'Invalid Verification Code.';
+                    return false;
+
+                }
+
+            });
+
+        }
+
+    }
+
+</script>

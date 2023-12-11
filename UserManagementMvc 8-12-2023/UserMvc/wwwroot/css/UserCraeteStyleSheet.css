@@ -1,0 +1,89 @@
+﻿body {
+    /*position: fixed;*/
+    /*background-image:url('../grey background.jfif');
+    background-repeat:no-repeat;
+    background-size:cover;*/
+}
+
+@media screen and (max-width:600px) {
+    body {
+        background:none;
+    }
+
+    .card {
+        margin: 20px 0px 0px 0px;
+        width: 60%;
+    }
+
+    h1
+    {
+        margin:0px 0px 0px 0px;
+    }
+}
+
+.boxi {
+    width: 500px;
+    height: 400px;
+    background-color: white;
+    border:2px solid black;
+   /* box-shadow:black 5px 5px 2px 5px;*/
+    position: absolute;
+    margin: 50px 0px 0px 600px;
+    border-radius: 0px;
+}
+
+.btn {
+    width: 160px;
+    height: 50px;
+    background: white;
+    color: black;
+    border: 2px solid black;
+    outline: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 500;
+    transition: 2s;
+}
+
+    .btn:hover {
+        background-color: ghostwhite;
+        color: black;
+    }
+
+.card {
+    background: none;
+    border: none;
+}
+
+.card-header {
+    border: none;
+    background: none;
+}
+
+.card-footer {
+    border: none;
+    background: none;
+}
+
+.imagi {
+    width: 420px;
+    height: 400px;
+    background-color: yellow;
+    position: absolute;
+    background-image: url('../create user.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 50px 0px 0px 0px;
+    margin-right: 200px;
+}
+
+.successd-msg
+{
+    color:red;
+}
+
+h1
+{
+    margin:0px 0px 0px 500px;
+}

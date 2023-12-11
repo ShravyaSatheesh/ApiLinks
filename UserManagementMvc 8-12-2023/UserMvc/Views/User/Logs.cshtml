@@ -1,0 +1,106 @@
+﻿<style>
+    body{
+        /* background-image: url('/grey background.jfif');
+        background-repeat:no-repeat;
+        background-size:cover; */
+    }
+
+    table{
+        border:5px solid white;
+    }
+
+    .btn
+    {
+        color:black;
+        background-color:white;
+        border:2px solid black;
+    }
+
+    #tblUser tbody {
+        background-color: white;
+    }
+
+        #tblUser tbody tr:nth-child(even) {
+            background-color: lightgray;
+        }
+
+    #tblUser thead {
+        background-color: lightblue;
+    }
+   /*  .row{
+        border:2px solid black;
+    } */
+
+    .col-lg-12
+    {
+        margin:10px 0px 10px 0px;
+    }
+</style>
+<center><h1>Logs</h1></center>
+
+@* <p>
+    <a asp-action="Index">Back</a>
+</p> *@
+<div class="row">
+    <div class="col-lg-12">
+        
+        <table class="table table-bordered" id="tblUser">
+            
+            <thead>
+                <tr>
+                    
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>User Logs</th>
+                    
+                </tr>
+            </thead>
+          
+        </table>
+    </div>
+
+</div>
+<br />
+<center>
+<p>
+    <a asp-action="Index" class="btn">Back</a>
+</p>
+</center>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript">
+
+    var js = jQuery.noConflict(true);
+    js(document).ready(function () {
+        LoadUser()
+    });
+
+    function LoadUser() {
+        tabledata = [];
+        // var _token = localStorage.getItem('token');
+        $.ajax({
+            type: 'GET',
+            url: 'https://usermanagementapi-team4.azurewebsites.net/api/Authentication/LogDetails',
+            
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+
+                $.each(data, function (key, value) {
+                    
+                    tabledata.push([value.name, value.email, value.dateTime])
+                })
+            },
+            failure: function (error) {
+
+            }
+        })
+        js('#tblUser').DataTable({
+            data: tabledata
+        })
+    }
+
+    </script>
